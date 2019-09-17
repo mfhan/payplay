@@ -26,6 +26,7 @@ Create personal profile
 Log In
 Go to Profile 
 Click on: Update Your Profile
+//new location? 
 Location map opens
 Click on new location
 Personal profile updated
