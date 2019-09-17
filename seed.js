@@ -1,9 +1,9 @@
 const { Artist  } = require('./models');
-const data = require('./data');
+const artistData = require('./artistData');
 
 const seed = async () => {
   try {
-    const artists = await Artist.bulkCreate(data);
+    const artists = await Artist.bulkCreate(artistData);
     console.log(`${artists.length} artists created!`);
   } catch (e) {
     console.log(e.message);

@@ -24,7 +24,9 @@ Artist.init({
     validate: { min: -180, max: 180 }
   },
 	email: Sequelize.STRING,
-	website: Sequelize.STRING
+  intro: Sequelize.TEXT,
+	website: Sequelize.STRING,
+  imagelink: Sequelize.TEXT
 }, {
   sequelize: db,
   modelName: 'artist'
@@ -37,7 +39,6 @@ Sponsor.init({
   password_digest: Sequelize.STRING,
 	zipcode: Sequelize.INTEGER,
 	email: Sequelize.STRING,
-	password: Sequelize.STRING,
 	favorites: Sequelize.TEXT
 }, {
   sequelize: db,

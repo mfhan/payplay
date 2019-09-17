@@ -3,9 +3,12 @@ import {
   Route, Switch, Redirect
 } from 'react-router-dom';
 import ReactMapGL, {Marker, Popup} from 'react-map-gl';
-import UpdateArtistForm from './UpdateArtistForm'
+import ArtistProfile from './ArtistProfile'
 import ArtistList from './ArtistList'
-import NewArtistForm from './NewArtistForm'
+import SingleArtist from './SingleArtist'
+import SampleInfo from './SampleInfo'
+import Pin from './Pin'
+//import NewArtistForm from './NewArtistForm'
 
 import 'mapbox-gl/dist/mapbox-gl.css';
 import * as data from '../data.json';
@@ -24,19 +27,30 @@ class Map extends Component {
       zoom:14,
       minZoom: 10,
       maxZoom: 20,
-    }
+    },
+    showPopup: true,
+    popupInfo: null
   };
 }
-  //
-  // mapClick =(map, e)=>{
-  //   console.log(map)
-  //   this.setState({
-  //     mapLat:map.lngLat[0],
-  //     mapLng:map.lngLat[1],
-  //     clicked: true,
-  //   })
-  // }
 
+_renderPopup() {
+    const {popupInfo} = this.state;
+
+    return (
+      popupInfo && (
+        <Popup
+          tipSize={5}
+          anchor="top"
+          longitude={popupInfo.long}
+          latitude={popupInfo.lat}
+          closeOnClick={false}
+          onClose={() => this.setState({popupInfo: null})}
+        >
+          <SampleInfo info={popupInfo} />
+        </Popup>
+      )
+    );
+  }
 
   render() {
     // {...this.state.viewport}
@@ -60,25 +74,21 @@ console.log(this.props)
         mapboxApiAccessToken = {process.env.REACT_APP_MAPBOX_TOKEN}
         mapStyle = 'mapbox://styles/parisny/ck0lefyty5kux1cte8t6fukb6'
         onViewportChange = {(viewport) => this.setState({viewport})
-        }
-        onClick = {this.props.mapClicked}
-        >
+      }
+      >
+
+
         {data.artists.map(artist => (
-         <div
+         <Marker
            key={artist.username}
            latitude={artist.lat}
            longitude={artist.long}
         >
-        <button
-              className="marker-btn"
-              onlick={e => {
-                e.preventDefault();
-              }}
-            >
-        </button>
-
-        </div>
+          {artist.username}
+         <Pin size={20} onClick={() => this.setState({popupInfo:artist})} />
+        </Marker>
       ))}
+      {this._renderPopup()}
         </ ReactMapGL>
       </div>
     );

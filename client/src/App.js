@@ -3,10 +3,14 @@ import React, {Component} from 'react';
 import {
   Redirect, Route, Switch
 } from 'react-router-dom';
+import { withRouter } from 'react-router';
+// jwt-decode lets us decode json web token and access the data in them
+import decode from 'jwt-decode';
+import Login from './components/Login'
+import Register from './components/Register'
 import ReactMapGL from 'react-map-gl';
 import ArtistList from './components/ArtistList'
-import NewArtistForm from './components/NewArtistForm'
-import UpdateArtistForm from './components/UpdateArtistForm'
+import ArtistProfile from './components/ArtistProfile'
 import Map from './components/Map'
 
 import { showArtists, createArtist, updateArtist, destroyArtist } from './services/api-helper';
@@ -21,12 +25,21 @@ class App extends Component {
         username: '',
         lat: '',
         long: '',
-        website: ''
+        intro: ''
       },
       mapLat:null,
       mapLong:null,
       clicked:false,
+      login: {
+        username: '',
+        password: '',
+      },
+      register: {
+        username: '',
+        email: '',
+        password: '',
       }
+    }
   }
 
   handleChange = (e) => {
@@ -38,7 +51,6 @@ class App extends Component {
       }
     }));
   }
-
 
   mapClick =(map, e)=>{
       console.log('this is app inside function', map)
@@ -109,67 +121,42 @@ class App extends Component {
   componentDidMount() {
     console.log('Hey guys, componentDidMount!')
     this.getArtists()
-
   }
 
 // ? 'news-list' : 'news-list-pre'
   render() {
-    const mapIsClicked = (this.state.clicked)  && <Redirect to={{
-      pathname: "/new",
-      state: {
-        lat: this.state.mapLat,
-        long: this.state.mapLng
-      }
-    }}  />
-
 
     return (
       <div className="App">
-      {mapIsClicked}
-    <h1>Artists: Add your Location</h1>
+    <h1>Support Street Artists!</h1>
+    <Map />
     <Switch>
-    <Route exact path='/new' render={(props) => (
 
-      <NewArtistForm
-         form={this.state.form}
-         handleChange={this.handleChange}
-         handleSubmit={this.postArtist}
-         lat = {this.state.mapLat}
-         long= {this.state.mapLong}
-          />
-     )} />
+
+
+
 
       <Route exact path='/' render={(props) => (
-        <>
-
-            <Map
-            mapClicked ={this.mapClick}
-            clicked = {this.clicked}
-           />
+          <>
              <ArtistList
                {...props}
                artists={this.state.artists}
                handleDelete={this.destroyArtist}
                showUpdateForm={this.showUpdateForm}
              />
-
-
           </>
          )} />
 
-
-           <Route path='/edit/:id' render={(props) => {
-             return (
-               <
-               UpdateArtistForm
-                 {...props}
-                 form={this.state.form}
-                 handleChange={this.handleChange}
-                 handleSubmit={this.updateArtist}
-               />
-             )
-           }} />
-
+       <Route path='/edit/:id' render={(props) => {
+         return (
+           <ArtistProfile
+             {...props}
+             form={this.state.form}
+             handleChange={this.handleChange}
+             handleSubmit={this.updateArtist}
+           />
+         )
+       }} />
 
         </Switch>
       </div>
