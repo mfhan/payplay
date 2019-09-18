@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 // This component handles our login form and has a link to the register form
 const Login = (props) => {
-
+  console.log('this is props.history from login js', props)
   return (
     <div>
       <h2>Log In</h2>

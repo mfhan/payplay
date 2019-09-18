@@ -2,7 +2,7 @@ import React from 'react';
 
 // This component handles our register form
 const Register = (props) => {
-
+  console.log('this is props.history from register js', props)
   return (
     <div>
       <h2>Register</h2>

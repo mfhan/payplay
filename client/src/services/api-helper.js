@@ -12,10 +12,18 @@ export const loginUser = async (loginData) => {
   return resp.data
 }
 
-export const registerUser = async (registerData) => {
-  const resp = await api.post(`/auth/register`, registerData);
-  return resp.data;
-}
+export const registerUser = async (formData) => {
+  const resp = await api.post('/auth/register', formData);
+  localStorage.setItem('authToken', resp.data.token);
+  api.defaults.headers.common.authorization = `Bearer ${resp.data.token}`
+
+  return resp.data.user;
+};
+
+// export const registerUser = async (registerData) => {
+//   const resp = await api.post(`/artists/register`, registerData);
+//   return resp.data;
+// }
 
 // export const register = async (formData) => {
 //   const resp = await api.post('/auth/register', formData);
@@ -39,6 +47,13 @@ export const showArtists = async () => {
     console.log(e.message);
   }
 };
+
+
+
+export const showOneArtist = async (id) => {
+  const resp = await api(`/artists/${id}`)
+  return resp.data;
+}
 
 export const createArtist = async (data) => {
   try {

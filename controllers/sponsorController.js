@@ -11,13 +11,13 @@ const sponsorController = express.Router();
 const buildAuthResponse = (sponsor) => {
   const tokenData = {
     id: sponsor.id,
-    sponsorname: sponsor.sponsorname,
+    sponsorname: sponsor.username,
   };
 
   const token = genToken(tokenData);
 
   const sponsorData = {
-    sponsorname: sponsor.sponsorname,
+    sponsorname: sponsor.username,
     id: sponsor.id,
   };
 
@@ -30,12 +30,12 @@ const buildAuthResponse = (sponsor) => {
 // Here we define the sponsor register route.
 // We immediately hash the password and never use the original password again.
 // Then we add the new sponsor and return our pre-defined response.
-sponsorController.post('/register', async (req, res) => {
+sponsorController.post('/auth/register', async (req, res) => {
   try {
     const pwd = await hashPassword(req.body.password);
 
     const sponsor = await Sponsor.create({
-      sponsorname: req.body.sponsorname,
+      sponsorname: req.body.username,
       password_digest: pwd,
     });
 
@@ -56,7 +56,7 @@ sponsorController.post('/login', async (req, res) => {
   try {
     const sponsor = await Sponsor.findOne({
       where: {
-        sponsorname: req.body.sponsorname,
+        sponsorname: req.body.username,
       },
     });
 
