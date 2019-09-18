@@ -11,8 +11,6 @@ const ArtistList = (props) => {
           <SingleArtist
             key={artist.id}
             artist={artist}
-            showUpdateForm={props.showUpdateForm}
-            handleDelete={props.handleDelete}
           />
         )
       }) }

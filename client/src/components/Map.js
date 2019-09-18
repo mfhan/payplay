@@ -1,11 +1,5 @@
 import React, {Component} from 'react';
-import {
-  Route, Switch, Redirect, Render
-} from 'react-router-dom';
 import ReactMapGL, {Marker, Popup } from 'react-map-gl';
-import ArtistProfile from './ArtistProfile'
-import ArtistList from './ArtistList'
-import SingleArtist from './SingleArtist'
 import InfoContent from './InfoContent'
 import Pin from './Pin'
 

@@ -6,10 +6,7 @@ const SingleArtist = (props) => {
     <div className="single-artist">
 
     <h3>{props.artist.username}</h3>
-    <p>Donate to their website: {props.artist.website}.</p>
-    <button onClick={() => props.showUpdateForm(props.artist.id)}>EDIT</button>
-    <button onClick={() => props.handleDelete(props.artist.id)}>DELETE</button>
-
+    <p>Connect on their website: {props.artist.social1}.</p>
     </div>
   )
 };
