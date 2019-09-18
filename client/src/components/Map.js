@@ -11,7 +11,7 @@ import Pin from './Pin'
 //import NewArtistForm from './NewArtistForm'
 
 import 'mapbox-gl/dist/mapbox-gl.css';
-import * as data from '../data.json';
+//import * as data from '../data.json';
 
 class Map extends Component {
   constructor(props){
@@ -77,8 +77,7 @@ console.log(this.props)
       }
       >
 
-
-        {data.artists.map(artist => (
+        {this.props.artists.map(artist => (
          <Marker
            key={artist.username}
            latitude={artist.lat}

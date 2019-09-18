@@ -2,7 +2,7 @@ import React from 'react';
 
 
 const ArtistProfile = (props) => {
-
+console.log(props)
   if (props.form.id) {
     return (
       <>
@@ -91,7 +91,7 @@ const ArtistProfile = (props) => {
         </form>
       </>
     )
-  }  
+  }
 };
 
 export default ArtistProfile;

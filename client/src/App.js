@@ -129,10 +129,10 @@ class App extends Component {
     return (
       <div className="App">
     <h1>Support Street Artists!</h1>
-    <Map />
+    <Map
+      artists={this.state.artists}
+    />
     <Switch>
-
-
 
 
 

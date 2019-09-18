@@ -5,6 +5,7 @@ const ArtistList = (props) => {
   return (
     <>
       { props.artists.map((artist) => {
+        console.log(props.artists)
         return (
           <SingleArtist
             key={artist.id}
