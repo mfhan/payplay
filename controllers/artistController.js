@@ -6,8 +6,8 @@ const artistController = express.Router();
 
 artistController.get('/', async (req, res) => {
   try {
-    const artists = await Artist.findAll();
     console.log("All the talent!")
+    const artists = await Artist.findAll();
     res.json(artists);
   } catch (e) {
     res.status(500).send(e.message);

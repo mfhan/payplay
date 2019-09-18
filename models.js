@@ -25,7 +25,11 @@ Artist.init({
   },
 	email: Sequelize.STRING,
   intro: Sequelize.TEXT,
-	website: Sequelize.STRING,
+	social1: Sequelize.STRING,
+  social2: Sequelize.STRING,
+  social3: Sequelize.STRING,
+  genre1: Sequelize.STRING,
+  genre2: Sequelize.STRING,
   imagelink: Sequelize.TEXT
 }, {
   sequelize: db,

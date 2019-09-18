@@ -1,8 +1,6 @@
 //import React, { useState } from 'react';
 import React, {Component} from 'react';
-import {
-  Redirect, Route, Switch
-} from 'react-router-dom';
+import {  Route, Link , Switch } from 'react-router-dom';
 import { withRouter } from 'react-router';
 // jwt-decode lets us decode json web token and access the data in them
 import decode from 'jwt-decode';
@@ -13,31 +11,36 @@ import ArtistList from './components/ArtistList'
 import ArtistProfile from './components/ArtistProfile'
 import Map from './components/Map'
 
-import { showArtists, createArtist, updateArtist, destroyArtist } from './services/api-helper';
+import { loginUser, registerUser, showArtists, createArtist, updateArtist, destroyArtist } from './services/api-helper';
 import './App.css';
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      currentUser: null,
       artists: [],
-      form: {
-        username: '',
-        lat: '',
-        long: '',
-        intro: ''
-      },
+      // form: {
+      //   username: '',
+      //   lat: '',
+      //   long: '',
+      //   intro: ''
+      // },
       mapLat:null,
       mapLong:null,
       clicked:false,
-      login: {
-        username: '',
-        password: '',
-      },
-      register: {
-        username: '',
-        email: '',
-        password: '',
+      // login: {
+      //   username: '',
+      //   password: '',
+      // },
+      // register: {
+      //   username: '',
+      //   email: '',
+      //   password: '',
+      // },
+      authFormData: {
+        username: "",
+        password: ""
       }
     }
   }
@@ -51,6 +54,51 @@ class App extends Component {
       }
     }));
   }
+
+  handleLoginButton = () => {
+    this.props.history.push("/login");
+  }
+
+  handleLogin = async () => {
+      const userData = await loginUser(this.state.authFormData);
+      this.setState({
+        currentUser: userData.user
+      })
+      localStorage.setItem("jwt", userData.token)
+    }
+
+    // Function to register a user
+    // After register, we just call the login function with the same data
+    handleRegister = async (e) => {
+      e.preventDefault();
+      await registerUser(this.state.authFormData);
+      this.handleLogin();
+    }
+
+    handleLogout = () => {
+        localStorage.removeItem("jwt");
+        this.setState({
+          currentUser: null
+        })
+      }
+
+      // Handle change function for the auth forms
+      authHandleChange = (e) => {
+        const { name, value } = e.target;
+        this.setState(prevState => ({
+          authFormData: {
+            ...prevState.authFormData,
+            [name]: value
+          }
+        }));
+      }
+
+      // handle change function for our create food form
+      handleChange = (e) => {
+        const { name, value } = e.target;
+        this.setState({ formData: { [name]: value } });
+      }
+
 
   mapClick =(map, e)=>{
       console.log('this is app inside function', map)
@@ -128,24 +176,49 @@ class App extends Component {
 
     return (
       <div className="App">
-    <h1>Support Street Artists!</h1>
-    <Map
-      artists={this.state.artists}
-    />
-    <Switch>
+        <header>
+        <Link to="/"><h1>PayPlay</h1></Link>
+      /* Here we use a terinary to check if there is a logged in user set in state.
+          If there is no logged in user, we show a login button instead of the site nav */
+      {this.state.currentUser
+        ?
+        <div>
+          /* This is a greeting to the user if there user info has been set in state.
+          We use the guard operator to check '&&' */
+          <h3>Hi {this.state.currentUser && this.state.currentUser.username}<button onClick={this.handleLogout}>logout</button></h3>
+          <hr />
+        </div>
+        :
+        <button onClick={this.handleLoginButton}>Login/register</button>
+      }
+      </header>
 
+      <Route exact path="/login" render={(props) => (
+      <Login
+        handleLogin={this.handleLogin}
+        handleChange={this.authHandleChange}
+        formData={this.state.authFormData} />)} />
+      <Route exact path="/register" render={(props) => (
+      <Register
+        handleRegister={this.handleRegister}
+        handleChange={this.authHandleChange}
+        formData={this.state.authFormData} />)} />
 
-
+      <h2>Support Street Artists!</h2>
+      <Map
+        artists={this.state.artists}
+      />
+      <Switch>
       <Route exact path='/' render={(props) => (
-          <>
-             <ArtistList
-               {...props}
-               artists={this.state.artists}
-               handleDelete={this.destroyArtist}
-               showUpdateForm={this.showUpdateForm}
-             />
-          </>
-         )} />
+        <>
+          <ArtistList
+             {...props}
+             artists={this.state.artists}
+             handleDelete={this.destroyArtist}
+             showUpdateForm={this.showUpdateForm}
+           />
+        </>
+        )} />
 
        <Route path='/edit/:id' render={(props) => {
          return (
@@ -165,15 +238,3 @@ class App extends Component {
 }
 
 export default App;
-
-
-//previously:
-
-          // <Route exact path='/' render={(props) => (
-          //   <>
-          //   <Map />
-          //   <NewArtistForm
-          //      form={this.state.form}
-          //      handleChange={this.handleChange}
-          //      handleSubmit={this.postArtist}
-          //    />

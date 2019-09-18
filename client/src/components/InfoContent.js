@@ -1,10 +1,10 @@
 import React, {PureComponent} from 'react';
 
-export default class SampleInfo extends PureComponent {
+export default class InfoContent extends PureComponent {
   render() {
     const {info} = this.props;
     const displayName = `${info.username}`;
-    const displayWebsite = `${info.website}`
+    const displayWebsite = `${info.social1}`
     const displayIntro = `${info.intro}`
 
     return (
@@ -19,7 +19,7 @@ export default class SampleInfo extends PureComponent {
           </a>
           <p>{displayIntro}</p>
         </div>
-        <img width={240} src={info.image} />
+        <img width={100} src={info.image} />
       </div>
     );
   }
