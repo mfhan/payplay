@@ -4,7 +4,7 @@ const { hashPassword, genToken, checkPassword } = require('../services/auth');
 
 const sponsorController = express.Router();
 
-// This function makes the response back to the front end when a sponsor logins in or registers.
+// This function makes the response back to the front end when a sponsor logs in or registers.
 // We include the json web token as well as the sponsorname and sponsor ID.
 // WE DO NOT WANT TO INCLUDE THE PASSWORD OR HASH/DIGEST!
 // The less info on the front-end about the sponsor's password, the better.

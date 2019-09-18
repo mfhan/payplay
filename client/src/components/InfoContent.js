@@ -19,7 +19,7 @@ export default class InfoContent extends PureComponent {
           </a>
           <p>{displayIntro}</p>
         </div>
-        <img width={100} src={info.image} />
+        <img width={100} src={info.image} alt ='' />
       </div>
     );
   }

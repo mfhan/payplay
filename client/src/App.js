@@ -6,7 +6,6 @@ import { withRouter } from 'react-router';
 import decode from 'jwt-decode';
 import Login from './components/Login'
 import Register from './components/Register'
-import ReactMapGL from 'react-map-gl';
 import ArtistList from './components/ArtistList'
 import ArtistProfile from './components/ArtistProfile'
 import Map from './components/Map'
@@ -55,9 +54,6 @@ class App extends Component {
     }));
   }
 
-  handleLoginButton = () => {
-    this.props.history.push("/login");
-  }
 
   handleLogin = async () => {
       const userData = await loginUser(this.state.authFormData);
@@ -66,6 +62,11 @@ class App extends Component {
       })
       localStorage.setItem("jwt", userData.token)
     }
+
+  handleLoginButton = () => {
+   console.log('props from login/register button', this.props)
+   this.props.history.push("/login");
+  }
 
     // Function to register a user
     // After register, we just call the login function with the same data
@@ -91,12 +92,6 @@ class App extends Component {
             [name]: value
           }
         }));
-      }
-
-      // handle change function for our create food form
-      handleChange = (e) => {
-        const { name, value } = e.target;
-        this.setState({ formData: { [name]: value } });
       }
 
 
@@ -169,27 +164,31 @@ class App extends Component {
   componentDidMount() {
     console.log('Hey guys, componentDidMount!')
     this.getArtists()
+    const checkUser = localStorage.getItem("jwt");
+    if (checkUser) {
+      const user = decode(checkUser);
+      this.setState({
+        currentUser: user
+      })
+    }
   }
 
-// ? 'news-list' : 'news-list-pre'
   render() {
 
     return (
       <div className="App">
         <header>
         <Link to="/"><h1>PayPlay</h1></Link>
-      /* Here we use a terinary to check if there is a logged in user set in state.
-          If there is no logged in user, we show a login button instead of the site nav */
       {this.state.currentUser
         ?
         <div>
-          /* This is a greeting to the user if there user info has been set in state.
-          We use the guard operator to check '&&' */
-          <h3>Hi {this.state.currentUser && this.state.currentUser.username}<button onClick={this.handleLogout}>logout</button></h3>
+          <h3>Hi {this.state.currentUser && this.state.currentUser.username}<button onClick={this.handleLogout}>Log Out</button></h3>
           <hr />
         </div>
         :
-        <button onClick={this.handleLoginButton}>Login/register</button>
+
+        <button onClick={this.handleLoginButton}>Artists: Create or Update your profiles!</button>
+
       }
       </header>
 
@@ -202,13 +201,15 @@ class App extends Component {
       <Register
         handleRegister={this.handleRegister}
         handleChange={this.authHandleChange}
-        formData={this.state.authFormData} />)} />
+        formData={this.state.authFormData} />)
+      } />
 
       <h2>Support Street Artists!</h2>
+
       <Map
         artists={this.state.artists}
       />
-      <Switch>
+
       <Route exact path='/' render={(props) => (
         <>
           <ArtistList
@@ -231,10 +232,10 @@ class App extends Component {
          )
        }} />
 
-        </Switch>
+
       </div>
     );
   }
 }
 
-export default App;
+export default withRouter(App);
