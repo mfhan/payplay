@@ -7,7 +7,7 @@ const SingleArtist = (props) => {
     <div >
 
     <h3>{props.artist.username}</h3>
-    <p>Connect on their website: {props.artist.social1}.</p>
+      <p>{props.artist.intro}; {props.artist.social1}.</p>
     </div>
   )
 };

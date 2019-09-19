@@ -11,19 +11,21 @@ const Header =(props)=>{
 
 
     return (
-      <header className="page-title">
-        <Link to="/"><h1>PAYPLAY</h1></Link>
-        <h2>Support Street Artists!</h2>
+      <header className="title">
+
           {props.currentUser
             ?
             <div>
-              <Redirect to = {`./edit/${props.currentUser.id}`} />
-              <h3>Hi {props.currentUser && props.currentUser.username}<button onClick={props.handleLogout}>Log Out</button></h3>
+              <Redirect to = {`/edit/${props.currentUser.id}`} />
+              <h3>Hi {props.currentUser && props.currentUser.username}
+              <button  className="content-button"  onClick={props.handleLogout}>Log Out</button></h3>
               <hr />
             </div>
             :
-            <button className ="content-button"  onClick={props.handleLoginButton}>Artists: Create or Update your profiles!</button>
+            <button className ="login-button"  onClick={props.handleLoginButton}>Artist Sign-Up/Log-In</button>
           }
+          <Link to="/"><h1 >PAYPLAY</h1></Link>
+          <h2>Support Street Artists!</h2>
       </header>
     );
 }
