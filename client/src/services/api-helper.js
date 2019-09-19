@@ -14,11 +14,16 @@ export const loginUser = async (loginData) => {
 
 export const registerUser = async (formData) => {
   const resp = await api.post('/auth/register', formData);
-  localStorage.setItem('authToken', resp.data.token);
+  localStorage.setItem('jwt', resp.data.token);
   api.defaults.headers.common.authorization = `Bearer ${resp.data.token}`
-
   return resp.data.user;
 };
+
+export const verifyUser = async (token) => {
+  api.defaults.headers.common.authorization = `Bearer ${token}`
+  const resp = await api.post('/auth/verify');
+  return resp.data
+}
 
 // export const registerUser = async (registerData) => {
 //   const resp = await api.post(`/artists/register`, registerData);
@@ -47,7 +52,6 @@ export const showArtists = async () => {
     console.log(e.message);
   }
 };
-
 
 
 export const showOneArtist = async (id) => {

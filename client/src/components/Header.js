@@ -11,8 +11,8 @@ const Header =(props)=>{
 
 
     return (
-      <header className="page-title">
-        <Link to="/"><h1>PAYPLAY</h1></Link>
+      <header className="title">
+        <Link to="/"><h1 >PAYPLAY</h1></Link>
         <h2>Support Street Artists!</h2>
           {props.currentUser
             ?
@@ -22,7 +22,7 @@ const Header =(props)=>{
               <hr />
             </div>
             :
-            <button className ="content-button"  onClick={props.handleLoginButton}>Artists: Create or Update your profiles!</button>
+            <button className ="login-button"  onClick={props.handleLoginButton}>Artists: Create or Update your profiles!</button>
           }
       </header>
     );

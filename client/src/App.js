@@ -2,16 +2,16 @@
 import React, {Component} from 'react';
 import {  Redirect, Route, Link , Switch } from 'react-router-dom';
 import { withRouter } from 'react-router';
-// jwt-decode lets us decode json web token and access the data in them
 import decode from 'jwt-decode';
 import Header from './components/Header'
 import Login from './components/Login'
 import Register from './components/Register'
-import ArtistList from './components/ArtistList'
-import ArtistProfile from './components/ArtistProfile'
 import Map from './components/Map'
-
-import { loginUser, registerUser, showArtists, showOneArtist, createArtist, updateArtist, destroyArtist } from './services/api-helper';
+import ArtistProfile from './components/ArtistProfile'
+import ArtistList from './components/ArtistList'
+import About from './components/About'
+import Footer from './components/Footer'
+import { loginUser, registerUser, verifyUser, showArtists, showOneArtist, createArtist, updateArtist, destroyArtist } from './services/api-helper';
 import './App.css';
 
 class App extends Component {
@@ -59,12 +59,27 @@ class App extends Component {
   handleLogin = async () => {
       console.log('props login click', this.props)
       const userData = await loginUser(this.state.authFormData);
-      localStorage.setItem("jwt", userData.token)
+      localStorage.setItem("jwt", userData.token.token)
       this.setState({
         currentUser: userData.user,
         form: userData.user
         // form is added here
       });
+    }
+
+    handleVerify = async()=>{
+      //get the token from localStorage
+      const token = localStorage.getItem("jwt");
+      //IF there is a token, verify the user with a token
+      console.log(token)
+       if (token) {
+         const user = await verifyUser(token);
+        //we will assign formattedUser as currentUser
+        this.setState({
+          currentUser: user,
+          form: user
+        })
+      }
     }
 
   handleLoginButton = () => {
@@ -140,61 +155,58 @@ class App extends Component {
   componentDidMount() {
     console.log('Hey guys, componentDidMount!')
     this.getArtists()
-    const checkUser = localStorage.getItem("jwt");
-    if (checkUser) {
-      const user = decode(checkUser);
-      this.setState({
-        currentUser: user
-      })
-    }
+    this.handleVerify()
   }
 
   render() {
 
     return (
       <div className="App">
-      <Header
-        currentUser = {this.state.currentUser}
-        handleLoginButton = {this.handleLoginButton}
-        handleLogout = {this.handleLogout}
-      />
-
-      <Route exact path="/login" render={(props) => (
-        <Login
-          handleLogin={this.handleLogin}
-          handleChange={this.authHandleChange}
-          formData={this.state.authFormData} /> )}
-      />
-
-      <Route exact path="/register" render={(props) => (
-        <Register
-          handleRegister={this.handleRegister}
-          handleChange={this.authHandleChange}
-          formData={this.state.authFormData} />)}
-      />
-
-      <Map
-        artists={this.state.artists}
-      />
-      <Switch>
-      <Route exact path='/' render={(props) => (
-        <>
-          <ArtistList
-             {...props}
-             artists={this.state.artists}
-           />
-        </> )}
+        <Header
+          currentUser = {this.state.currentUser}
+          handleLoginButton = {this.handleLoginButton}
+          handleLogout = {this.handleLogout}
         />
 
-       <Route path='/edit/:id' render={(props) => (
-           <ArtistProfile
-             {...props}
-             currentUser = {this.state.currentUser}
-             form={this.state.form}
-             handleChange={this.handleChange}
-             handleSubmit={this.updateArtist} /> )}
+        <Route exact path="/login" render={(props) => (
+          <Login
+            handleLogin={this.handleLogin}
+            handleChange={this.authHandleChange}
+            formData={this.state.authFormData} /> )}
         />
-        </Switch>
+
+        <Route exact path="/register" render={(props) => (
+          <Register
+            handleRegister={this.handleRegister}
+            handleChange={this.authHandleChange}
+            formData={this.state.authFormData} />)}
+        />
+        <div className="main-content">
+          <Map
+            artists={this.state.artists}
+          />
+          <Switch>
+          <Route exact path='/' render={(props) => (
+            <>
+              <ArtistList
+                 {...props}
+                 artists={this.state.artists}
+               />
+            </> )}
+            />
+
+           <Route path='/edit/:id' render={(props) => (
+               <ArtistProfile
+                 {...props}
+                 currentUser = {this.state.currentUser}
+                 form={this.state.form}
+                 handleChange={this.handleChange}
+                 handleSubmit={this.updateArtist} /> )}
+            />
+            <Route path='/about' component={About} />
+            </Switch>
+            <Footer />
+        </div>
       </div>
     );
   }

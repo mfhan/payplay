@@ -14,7 +14,7 @@ class Map extends Component {
 
   this.state = {
     viewport: {
-      width: "100vw",
+      width: "100%",
       height: "50vh",
       latitude: 40.753345,
       longitude: -73.9841719,
@@ -31,6 +31,7 @@ class Map extends Component {
 
 _renderPopup() {
     const {popupInfo} = this.state;
+    console.log('renderPopup state', popupInfo)
     return (
       popupInfo && (
         <Popup
@@ -48,7 +49,7 @@ _renderPopup() {
   }
 
   render() {
-    console.log(this.props)
+    //console.log(this.props)
     //const {viewport} = this.state;
     return (
       <div >
@@ -72,7 +73,7 @@ _renderPopup() {
                  offsetTop={-10}
                 >
                 <div> {artist.username} </div>
-                <Pin size={20} onClick={() =>this.setState({popupInfo:artist})} />
+                <Pin size={12} onClick={() =>this.setState({popupInfo:artist})} />
               </Marker>
 
           ))}
