@@ -1,4 +1,5 @@
 import React, {PureComponent} from 'react';
+import '../App.css';
 
 export default class InfoContent extends PureComponent {
   render() {
@@ -8,7 +9,7 @@ export default class InfoContent extends PureComponent {
     const displayIntro = `${info.intro}`
 
     return (
-      <div>
+      <div className="info-window">
         <div>
           {displayName} |{' '}
           <a
