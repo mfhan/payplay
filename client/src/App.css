@@ -2,9 +2,9 @@
   border: 1px solid grey;
   margin: 5px;
   display: flex;
-  align-items: center;
   flex-direction: column;
   min-height: 100vh;
+  width: 100%;
 }
 
 .App > * {
@@ -12,7 +12,7 @@
 }
 
 .main-content {
-  flex-grow: 1;
+  /* flex-grow: 1; */
   background-color: #70bf40;
   padding: 2px  2px 0px 2px;
   display: flex;
@@ -20,6 +20,11 @@
   justify-content: center;
 }
 
+.main-content h2{
+  align-items: center;
+  margin: 2px  2px 2px 2px  ;
+  padding: 2px  2px 2px 2px  ;
+}
 
 .title {
   display: flex;
@@ -37,8 +42,14 @@
   margin: 2px  2px 2px 2px  ;
 }
 
+.title h3{
+  margin: 2px  2px 2px 2px  ;
+  padding: 2px  2px 2px 2px  ;
+}
+
 .title  .login-button {
   /* display: inline-block; */
+  align-self: flex-end;
   padding: 2px  2px 2px 2px;
 	border: 3px solid black;
 	border-radius: 3px;
@@ -53,16 +64,6 @@
   margin-top: 15px;
 }
 
-@media screen and (min-width: 601px) {
-  .title ul {
-    width: auto;
-    margin-top: 0;
-  }
-
-  .title .login-button {
-    order: 1;
-  }
-}
 
 
 .Map {
@@ -89,13 +90,20 @@ svg{
 
 .info-window {
   width: 300px;
-  height: auto;
+  height: 150px;
+}
+.info-window p {
+  font-size: 14px;
+  color: green;
 }
 
 
 /* Global buttons */
 .content-button {
-	padding: .5em 1em;
+  align-self: center;
+  display: column;
+	padding: .2em .4em;
+  margin: .2em .2em;
 	border: 3px solid black;
 	/*border-radius: 10px;*/
 	font-weight: 600;
@@ -112,10 +120,22 @@ a.content-button:hover {
 	color: #FFFCED;
 }
 
+@media screen and (min-width: 601px) {
+  .title ul {
+    width: auto;
+    margin-top: 0;
+  }
+}
 
 /*BASE STYLES  */
 body {
 	margin: 0;
+}
+
+footer{
+    background-color: yellow;
+    padding: 1em;
+    color: black;
 }
 
 body,
@@ -234,7 +254,7 @@ big {
 .footer-content {
 /* 	margin-bottom: 1em; */
     padding: 1em;
-    color: white;
+    color: black;
 
 }
 
@@ -248,10 +268,6 @@ big {
     background-color: #ac8658;
 }
 
-
-.footer-content {
-    background-color: #0265c0;
-}
 
 
 /*

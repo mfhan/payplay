@@ -67,62 +67,85 @@ class App extends Component {
       });
     }
 
-    handleVerify = async()=>{
-      //get the token from localStorage
-      const token = localStorage.getItem("jwt");
-      //IF there is a token, verify the user with a token
-      console.log(token)
-       if (token) {
-         const user = await verifyUser(token);
-        //we will assign formattedUser as currentUser
-        this.setState({
-          currentUser: user,
-          form: user
-        })
-      }
+  handleVerify = async()=>{
+    //get the token from localStorage
+    const token = localStorage.getItem("jwt");
+    //IF there is a token, verify the user with a token
+    console.log(token)
+     if (token) {
+       const user = await verifyUser(token);
+      //we will assign formattedUser as currentUser
+      this.setState({
+        currentUser: user,
+        form: user
+      })
     }
+  }
 
   handleLoginButton = () => {
    console.log('props from login/register button', this.props)
    this.props.history.push("/login");
   }
 
-    // Function to register a user
-    // After register, we just call the login function with the same data
-    handleRegister = async (e) => {
-      console.log('props register click', this.props)
-      e.preventDefault();
-      await registerUser(this.state.authFormData);
-      this.handleLogin();
+  // Function to register a user
+  // After register, we just call the login function with the same data
+  handleRegister = async (e) => {
+    console.log('props register click', this.props)
+    e.preventDefault();
+    await registerUser(this.state.authFormData);
+    this.handleLogin();
+  }
+
+  handleLogout = () => {
+      localStorage.removeItem("jwt");
+      this.setState({
+        currentUser: null
+      })
+  }
+
+  // Handle change function for the auth forms
+  authHandleChange = (e) => {
+    const { name, value } = e.target;
+    this.setState(prevState => ({
+      authFormData: {
+        ...prevState.authFormData,
+        [name]: value
+      }
+    }));
+  }
+
+
+  handleChangeLocation =(e)=>{
+    e.preventDefault()
+    this.setState(prevState =>({
+      changingLocation: true
+    }))
+  }
+
+
+
+  mapClick =(map, e)=> {
+    if (!this.state.changingLocation) {
+      return;
     }
+      console.log('this is mapClick', map)
+      this.setState(prevState => ({
+          form: {
+            ...prevState.form,
+            lat: map.lngLat[1],
+            long: map.lngLat[0],
+          },
+          changingLocation: false
+        }))
+  }
+        // spread the rest of prevState
+        // spread the rest of prevState.form
+        // change lat and long to map.lngLat etc.
+        //mapLat:map.lngLat[0],
+        //mapLong:map.lngLat[1],
+        //clicked: true,
+        //changingLocation: false
 
-    handleLogout = () => {
-        localStorage.removeItem("jwt");
-        this.setState({
-          currentUser: null
-        })
-      }
-
-      // Handle change function for the auth forms
-      authHandleChange = (e) => {
-        const { name, value } = e.target;
-        this.setState(prevState => ({
-          authFormData: {
-            ...prevState.authFormData,
-            [name]: value
-          }
-        }));
-      }
-
-
-  // mapClick =(map, e)=>{
-  //     console.log('this is app inside function', map)
-  //     this.setState({
-  //       mapLat:map.lngLat[0],
-  //       mapLong:map.lngLat[1],
-  //       clicked: true,
-  //     })
-  //   }
 
   getArtists = async () => {
     const artists = await showArtists()
@@ -134,22 +157,14 @@ class App extends Component {
     this.setState({ oneArtist })
   }
 
-  updateArtist = async (e) => {
+  changeArtistForm = async (e) => {
     e.preventDefault();
     const { id, ...data } = this.state.form;
     const artist = await updateArtist(data, id)
-    // call the updateComposer fn()
-    // and pass it the necessary data
     this.setState((prevState) => ({
-      artists: [...prevState.artists.filter((comp) => comp.id !== id), artist],
-      form: {
-        username: '',
-        lat: '',
-        long: '',
-        social1:'',
-        intro:''
-      }
+      artists: [...prevState.artists.filter((comp) => comp.id !== id), artist]
     }));
+    console.log(artist)
   }
 
   componentDidMount() {
@@ -184,6 +199,8 @@ class App extends Component {
         <div className="main-content">
           <Map
             artists={this.state.artists}
+            changingLocation={this.state.changingLocation}
+            mapClick={this.mapClick}
           />
           <Switch>
           <Route exact path='/' render={(props) => (
@@ -201,7 +218,9 @@ class App extends Component {
                  currentUser = {this.state.currentUser}
                  form={this.state.form}
                  handleChange={this.handleChange}
-                 handleSubmit={this.updateArtist} /> )}
+                 handleSubmit={this.changeArtistForm}
+                 handleChangeLocation={this.handleChangeLocation}
+                  /> )}
             />
             <Route path='/about' component={About} />
             </Switch>
@@ -213,19 +232,3 @@ class App extends Component {
 }
 
 export default withRouter(App);
-
-
-// <header>
-// <Link to="/"><h1>PayPlay</h1></Link>
-// {this.state.currentUser
-// ?
-// <div>
-// <Redirect to = {`./edit/${this.state.currentUser.id}`} />
-//
-//   <h3>Hi {this.state.currentUser && this.state.currentUser.username}<button onClick={this.handleLogout}>Log Out</button></h3>
-//   <hr />
-// </div>
-// :
-// <button onClick={this.handleLoginButton}>Artists: Create or Update your profiles!</button>
-// }
-//</header>

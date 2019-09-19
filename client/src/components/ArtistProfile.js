@@ -1,8 +1,11 @@
 import React, {Component}  from 'react';
+
+
 const ArtistProfile = (props) => {
   const mapForm = () => {
     return Object.keys(props.form).map((key) => {
       switch(key) {
+        case 'id':
         case 'createdAt':
         case 'updatedAt':
           return <></>
@@ -22,9 +25,13 @@ const ArtistProfile = (props) => {
   if (props.currentUser) {
     return (
       <>
-        <h2>Create or Update Your Data</h2>
+        <h2 className = "main-content">Create or Update Your Data</h2>
+        <button className="content-button"  onClick={props.handleChangeLocation} >CHANGE LOCATION</button>
+
         {mapForm()}
-        <button>CHANGE LOCATION</button>
+
+        <button  className="content-button"  onClick={props.handleSubmit} >Submit</button>
+
       </>
     )
   } else {
@@ -32,3 +39,7 @@ const ArtistProfile = (props) => {
   }
 };
 export default ArtistProfile;
+
+// <button onClick= {() => {
+//     this.setState({ })
+//   }} >UPDATE ALL</button>

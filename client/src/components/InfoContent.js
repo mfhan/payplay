@@ -12,7 +12,7 @@ export default class InfoContent extends PureComponent {
     return (
       <div className="info-window">
         <div>
-          {displayName} |'Me!'
+          {displayName}
           <a
             target="_new"
             href={ `${displayWebsite}`}

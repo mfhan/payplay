@@ -70,7 +70,7 @@ export const createArtist = async (data) => {
 
 export const updateArtist = async (data, id) => {
   try {
-    const artist = await axios.put(`${BASE_URL}/artists/${id}`, data);
+    const artist = await api.put(`${BASE_URL}/artists/${id}`, data);
     return artist.data;
   } catch (e) {
     console.log(e.message);
