@@ -13,7 +13,6 @@ class Map extends Component {
     super(props)
 
   this.state = {
-    artists: [],
     viewport: {
       width: "100vw",
       height: "50vh",

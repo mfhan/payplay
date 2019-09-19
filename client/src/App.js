@@ -18,94 +18,88 @@ class App extends Component {
   constructor(props){
     super(props);
     this.state = {
-      artists: []
+      currentUser: null,
+      artists: [],
+      form: {
+        username: '',
+        lat: '',
+        long: '',
+        intro: ''
+      },
+      mapLat:null,
+      mapLong:null,
+      clicked:false,
+      login: {
+        username: '',
+        password: '',
+      },
+      register: {
+        username: '',
+        email: '',
+        password: '',
+      },
+      authFormData: {
+        username: "",
+        password: "",
+      }
     }
   }
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     currentUser: null,
-  //     artists: [],
-  //     form: {
-  //       username: '',
-  //       lat: '',
-  //       long: '',
-  //       intro: ''
-  //     },
-  //     mapLat:null,
-  //     mapLong:null,
-  //     clicked:false,
-  //     login: {
-  //       username: '',
-  //       password: '',
-  //     },
-  //     register: {
-  //       username: '',
-  //       email: '',
-  //       password: '',
-  //     },
-  //     authFormData: {
-  //       username: "",
-  //       password: "",
-  //     }
-  //   }
-  // }
 
-  // handleChange = (e) => {
-  //   const { name, value } = e.target;
-  //   this.setState((prevState) => ({
-  //     form: {
-  //       ...prevState.form,
-  //       [name]: value,
-  //     }
-  //   }));
-  // }
-  //
-  //
-  // handleLogin = async () => {
-  //     console.log('props login click', this.props)
-  //     const userData = await loginUser(this.state.authFormData);
-  //     localStorage.setItem("jwt", userData.token)
-  //     this.setState({
-  //       currentUser: userData.user,
-  //       form: userData.user
-  //       // form is added here
-  //     });
-  //   }
-  //
-  // handleLoginButton = () => {
-  //  console.log('props from login/register button', this.props)
-  //  this.props.history.push("/login");
-  // }
-  //
-  //   // Function to register a user
-  //   // After register, we just call the login function with the same data
-  //   handleRegister = async (e) => {
-  //     console.log('props register click', this.props)
-  //     e.preventDefault();
-  //     await registerUser(this.state.authFormData);
-  //     this.handleLogin();
-  //   }
-  //
-  //   handleLogout = () => {
-  //       localStorage.removeItem("jwt");
-  //       this.setState({
-  //         currentUser: null
-  //       })
-  //     }
-  //
-  //     // Handle change function for the auth forms
-  //     authHandleChange = (e) => {
-  //       const { name, value } = e.target;
-  //       this.setState(prevState => ({
-  //         authFormData: {
-  //           ...prevState.authFormData,
-  //           [name]: value
-  //         }
-  //       }));
-  //     }
-  //
-  //
+  handleChange = (e) => {
+    const { name, value } = e.target;
+    this.setState((prevState) => ({
+      form: {
+        ...prevState.form,
+        [name]: value,
+      }
+    }));
+  }
+
+
+  handleLogin = async () => {
+      console.log('props login click', this.props)
+      const userData = await loginUser(this.state.authFormData);
+      localStorage.setItem("jwt", userData.token)
+      this.setState({
+        currentUser: userData.user,
+        form: userData.user
+        // form is added here
+      });
+    }
+
+  handleLoginButton = () => {
+   console.log('props from login/register button', this.props)
+   this.props.history.push("/login");
+  }
+
+    // Function to register a user
+    // After register, we just call the login function with the same data
+    handleRegister = async (e) => {
+      console.log('props register click', this.props)
+      e.preventDefault();
+      await registerUser(this.state.authFormData);
+      this.handleLogin();
+    }
+
+    handleLogout = () => {
+        localStorage.removeItem("jwt");
+        this.setState({
+          currentUser: null
+        })
+      }
+
+      // Handle change function for the auth forms
+      authHandleChange = (e) => {
+        const { name, value } = e.target;
+        this.setState(prevState => ({
+          authFormData: {
+            ...prevState.authFormData,
+            [name]: value
+          }
+        }));
+      }
+
+
   // mapClick =(map, e)=>{
   //     console.log('this is app inside function', map)
   //     this.setState({
@@ -146,20 +140,24 @@ class App extends Component {
   componentDidMount() {
     console.log('Hey guys, componentDidMount!')
     this.getArtists()
-    // const checkUser = localStorage.getItem("jwt");
-    // if (checkUser) {
-    //   const user = decode(checkUser);
-    //   this.setState({
-    //     currentUser: user
-    //   })
-    // }
+    const checkUser = localStorage.getItem("jwt");
+    if (checkUser) {
+      const user = decode(checkUser);
+      this.setState({
+        currentUser: user
+      })
+    }
   }
 
   render() {
 
     return (
       <div className="App">
-      <Header />
+      <Header
+        currentUser = {this.state.currentUser}
+        handleLoginButton = {this.handleLoginButton}
+        handleLogout = {this.handleLogout}
+      />
 
       <Route exact path="/login" render={(props) => (
         <Login
