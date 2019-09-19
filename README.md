@@ -1,4 +1,4 @@
-#PayPlay 
+#PayPlay
 ## Discover and Support Street Arts
 
 ### Artists: Have you been feeling the hit of an increasingly cash-less society? Would you like to give the public a way to find you based on your location? Then sign up on payPlay and establish your artistic presence!  
@@ -16,34 +16,34 @@
 ## User Journey MVP:  
 
 ### Artist:  
-1. FIRST VISIT:   
-Register
-Location map opens -> create your profile
-Click on location
-Create personal profile
+1. FIRST VISIT:    
+Register  
+Location map opens -> create your profile  
+Click on location  
+Create personal profile  
 
 2. ACCOUNT MAINTENANCE:  
-Log In
-Go to Profile 
-Click on: Update Your Profile
-//new location? 
-Location map opens
-Click on new location
-Personal profile updated
+Log In  
+Go to Profile  
+Click on: Update Your Profile  
+//new location?   
+Location map opens  
+Click on new location  
+Personal profile updated  
 
-### Sponsor:  
-Register/Log In
-Browse map to look for artists
+### Sponsor:   
+Register/Log In  
+Browse map to look for artists  
 
 
 
 ### POST-MVP:  
--- Sponsors' location automatically centers the home map 
+-- Sponsors' location automatically centers the home map
 -- Sponsors can SEARCH artist by name/genre
 -- Sponsors can create favorites list
 
 
-## TECH: 
+## TECH:
 React  
 Node  
 Express  
@@ -65,7 +65,7 @@ sponsorController
 
 ----
 ## REACT COMPONENTS:  
-Hierarchy: 
+Hierarchy:
 
 ### MVP:  
 Map  
@@ -78,13 +78,11 @@ SingleArtist
 
 
 
-### TIMELINE: 
+### TIMELINE:
 Day 1: scaffolding  
 Day 2: approval + CREATING new artists via map input  
 Day 3: auth + front-end  
-Day 4: front-end 
-
-
+Day 4: front-end
 
 
 
@@ -97,3 +95,14 @@ Day 4: front-end
 | Handling new entry creation via map | High | 6hrs| N/A | N/A |
 | Styling | High | 4hrs| N/A | N/A |
 | Total | H | 6hrs| 5hrs | 5hrs |
+
+
+### Major Issues:  
+--      
+--      
+
+
+### Technical Credits:  
+-- Log-in, auth: General Assembly  
+-- Map controls: Uber on Github  
+--

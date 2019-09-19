@@ -1,5 +1,6 @@
 import React from 'react';
 import SingleArtist from './SingleArtist';
+import '../App.css';
 
 const ArtistList = (props) => {
   console.log(props)

@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import ReactMapGL, {Marker, Popup } from 'react-map-gl';
 import InfoContent from './InfoContent'
 import Pin from './Pin'
+import '../App.css';
 
 
 import 'mapbox-gl/dist/mapbox-gl.css';
@@ -12,9 +13,8 @@ class Map extends Component {
     super(props)
 
   this.state = {
-    artists: [],
     viewport: {
-      width: "80vw",
+      width: "100vw",
       height: "50vh",
       latitude: 40.753345,
       longitude: -73.9841719,
@@ -52,7 +52,7 @@ _renderPopup() {
     //const {viewport} = this.state;
     return (
       <div >
-        <h2>Discover Artists in Your Area</h2>
+        <h3>Discover Artists in Your Area</h3>
 
           <ReactMapGL
             {...this.state.viewport}
