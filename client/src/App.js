@@ -1,8 +1,7 @@
 //import React, { useState } from 'react';
 import React, {Component} from 'react';
-import {  Redirect, Route, Link , Switch } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import { withRouter } from 'react-router';
-import decode from 'jwt-decode';
 import Header from './components/Header'
 import Login from './components/Login'
 import Register from './components/Register'
@@ -11,7 +10,7 @@ import ArtistProfile from './components/ArtistProfile'
 import ArtistList from './components/ArtistList'
 import About from './components/About'
 import Footer from './components/Footer'
-import { loginUser, registerUser, verifyUser, showArtists, showOneArtist, createArtist, updateArtist, destroyArtist } from './services/api-helper';
+import { loginUser, registerUser, verifyUser, showArtists, showOneArtist, updateArtist} from './services/api-helper';
 import './App.css';
 
 class App extends Component {

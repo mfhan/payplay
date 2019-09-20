@@ -7,9 +7,9 @@ function Footer (props) {
 
   return (
      <footer>
-       <p>&copy; 2019 Marie-France Han</p>
-       <p ><Link to="/">Home</Link>
-         <Link to="/about">About This Project</Link></p>
+       <span>&copy; 2019 Marie-France Han</span>&nbsp; &nbsp;
+       <span><Link to="/">Home</Link></span>&nbsp; &nbsp;
+         <span><Link to="/about">About This Project </Link></span>
      </footer>
 
   );

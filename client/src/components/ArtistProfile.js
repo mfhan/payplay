@@ -1,5 +1,4 @@
-import React, {Component}  from 'react';
-
+import React  from 'react';
 
 const ArtistProfile = (props) => {
   const mapForm = () => {
@@ -28,7 +27,7 @@ const ArtistProfile = (props) => {
         <h2 className = "main-content">Create or Update Your Data</h2>
         <button className="content-button"  onClick={props.handleChangeLocation} >CHANGE LOCATION</button>
 
-        {mapForm()}
+          {mapForm()}
 
         <button  className="content-button"  onClick={props.handleSubmit} >Submit</button>
 

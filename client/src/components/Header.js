@@ -1,10 +1,6 @@
-import React, {Component}  from 'react';
-import {  Redirect, Route, Link , Switch } from 'react-router-dom';
+import React  from 'react';
+import {  Redirect, Link} from 'react-router-dom';
 import { withRouter } from 'react-router';
-import decode from 'jwt-decode';
-import Login from './Login'
-import Register from './Register'
-import { loginUser, registerUser } from '../services/api-helper';
 import '../App.css';
 
 const Header =(props)=>{
