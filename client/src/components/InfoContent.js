@@ -11,14 +11,14 @@ export default class InfoContent extends PureComponent {
     console.log('info from InfoContent', info)
     return (
       <div className="info-window">
-        <div>
-          {displayName}
+        <div >
+          {displayName}  &nbsp;  &nbsp;
           <a
             target="_new"
             href={ `${displayWebsite}`}
           >
             {displayWebsite}
-          </a>
+          </a> &nbsp;  &nbsp; 
           <p>{displayIntro}</p>
         </div>
         <img width={150} src={info.image} alt ='' />
