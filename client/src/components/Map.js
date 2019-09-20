@@ -28,10 +28,13 @@ class Map extends Component {
   };
 }
 
+updateViewport=(viewport)=>{
+  this.setState({viewport})
+}
 
 _renderPopup() {
     const {popupInfo} = this.state;
-    //console.log('renderPopup state', popupInfo)
+    //console.log('props', this.props)
     return (
       popupInfo && (
         <Popup
@@ -53,13 +56,11 @@ _renderPopup() {
     //const {viewport} = this.state;
     return (
       <div >
-        <h3>Discover Artists in Your Area:</h3>
-
           <ReactMapGL
             {...this.state.viewport}
             mapboxApiAccessToken = {process.env.REACT_APP_MAPBOX_TOKEN}
             mapStyle = 'mapbox://styles/parisny/ck0lefyty5kux1cte8t6fukb6'
-            onViewportChange = {(viewport) => this.setState({viewport})}
+            onViewportChange = {(viewport) => this.updateViewport(viewport)}
             onClick = {this.props.mapClick}
           >
 

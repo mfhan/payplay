@@ -6,7 +6,8 @@ const ArtistList = (props) => {
   console.log(props)
   return (
     <>
-      { props.artists.map((artist) => {
+    <h3>Discover Artists in Your Area:</h3>
+      {props.artists.map((artist) => {
         console.log(props.artists)
         return (
           <SingleArtist

@@ -11,7 +11,7 @@ const ArtistProfile = (props) => {
       default:
           return <>
             <label htmlFor={key}>{key}:</label>
-            <input
+            <input 
               type="text"
               name={key}
               value={props.form[key]}

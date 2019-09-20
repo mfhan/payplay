@@ -100,6 +100,7 @@ class App extends Component {
       this.setState({
         currentUser: null
       })
+      this.props.history.push('/')
   }
 
   // Handle change function for the auth forms
@@ -122,7 +123,6 @@ class App extends Component {
   }
 
 
-
   mapClick =(map, e)=> {
     if (!this.state.changingLocation) {
       return;
@@ -137,6 +137,10 @@ class App extends Component {
           changingLocation: false
         }))
   }
+
+  // clickRedirect=() => {
+  //   this.props.history.push('/')
+  // }
         // spread the rest of prevState
         // spread the rest of prevState.form
         // change lat and long to map.lngLat etc.
@@ -164,12 +168,13 @@ class App extends Component {
       artists: [...prevState.artists.filter((comp) => comp.id !== id), artist]
     }));
     console.log(artist)
+    this.props.history.push('/')
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     console.log('Hey guys, componentDidMount!')
-    this.getArtists()
-    this.handleVerify()
+    await this.getArtists()
+    await this.handleVerify()
   }
 
   render() {
@@ -217,8 +222,9 @@ class App extends Component {
                  currentUser = {this.state.currentUser}
                  form={this.state.form}
                  handleChange={this.handleChange}
-                 handleSubmit={this.changeArtistForm}
                  handleChangeLocation={this.handleChangeLocation}
+                 handleSubmit={this.changeArtistForm}
+
                   /> )}
             />
             <Route path='/about' component={About} />
