@@ -133,10 +133,13 @@ body {
 }
 
 footer{
-    background-color: yellow;
-    padding: 1em;
-    color: black;
+  display: inline-flex;
+  justify-content: space-between;
+  background-color: yellow;
+  padding: 1em;
+  color: black;
 }
+
 
 body,
 button,
