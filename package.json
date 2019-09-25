@@ -3,7 +3,11 @@
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
+  "engines": {
+    "node": "12.6.0"
+  },
   "scripts": {
+    "heroku-postbuild": "npm run build",
     "db:create": "dropdb --if-exists -e payplay_db && createdb payplay_db",
     "db:reset": "node resetDb.js",
     "db:seed": "node seed.js",

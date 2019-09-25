@@ -1,6 +1,8 @@
 const Sequelize  = require('sequelize');
 
-const db = new Sequelize({
+const db = new Sequelize(
+  (process.env.DATABASE_URL || 'postgres://localhost:5432/payplay_db'),
+  {
   database: 'payplay_db',
   dialect: 'postgresql',
   define: { underscored: true }
