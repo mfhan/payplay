@@ -12,10 +12,23 @@ export const loginUser = async (loginData) => {
   return resp.data
 }
 
-export const registerUser = async (registerData) => {
-  const resp = await api.post(`/auth/register`, registerData);
-  return resp.data;
+export const registerUser = async (formData) => {
+  const resp = await api.post('/auth/register', formData);
+  localStorage.setItem('jwt', resp.data.token);
+  api.defaults.headers.common.authorization = `Bearer ${resp.data.token}`
+  return resp.data.user;
+};
+
+export const verifyUser = async (token) => {
+  api.defaults.headers.common.authorization = `Bearer ${token}`
+  const resp = await api.post('/auth/verify');
+  return resp.data
 }
+
+// export const registerUser = async (registerData) => {
+//   const resp = await api.post(`/artists/register`, registerData);
+//   return resp.data;
+// }
 
 // export const register = async (formData) => {
 //   const resp = await api.post('/auth/register', formData);
@@ -40,6 +53,12 @@ export const showArtists = async () => {
   }
 };
 
+
+export const showOneArtist = async (id) => {
+  const resp = await api(`/artists/${id}`)
+  return resp.data;
+}
+
 export const createArtist = async (data) => {
   try {
     const artist = await axios.post(`${BASE_URL}/artists`, data);
@@ -51,7 +70,7 @@ export const createArtist = async (data) => {
 
 export const updateArtist = async (data, id) => {
   try {
-    const artist = await axios.put(`${BASE_URL}/artists/${id}`, data);
+    const artist = await api.put(`${BASE_URL}/artists/${id}`, data);
     return artist.data;
   } catch (e) {
     console.log(e.message);

@@ -1,13 +1,303 @@
 .App {
+  border: 1px solid grey;
+  margin: 5px;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100%;
+}
+
+.App > * {
+  padding: 20px;
+}
+
+.main-content {
+  /* flex-grow: 1; */
+  background-color: #70bf40;
+  padding: 2px  2px 0px 2px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.main-content h2{
+  align-items: center;
+  margin: 2px  2px 2px 2px;
+  padding: 2px  2px 2px 2px;
+}
+
+
+.home-profile h3{
+  margin: 0px;
+  padding: 2px  2px 2px 2px;
+  text-transform: uppercase;
+}
+.home-profile p{
+  font-size: 16px;
+  margin: 0px;
+  padding: 2px  2px 2px 2px;
+}
+
+
+.title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2px  2px 0px 2px;
+  background-color: #51a7fa;
+  text-decoration: none;
+}
+
+.title h1{
+  margin: 2px  2px 2px 2px  ;
+}
+
+.title h2{
+  margin: 2px  2px 2px 2px  ;
+}
+
+.title h3{
+  margin: 2px  2px 2px 2px  ;
+  padding: 2px  2px 2px 2px  ;
+}
+
+.title  .login-button {
+  /* display: inline-block; */
+  align-self: flex-end;
+  margin-right: 10px;
+  padding: 2px  2px 2px 2px;
+	border: 1px solid black;
+	border-radius: 3px;
+	font-weight: 600;
+}
+
+
+.title  ul {
+  display: flex;
+  order: 1;
+  width: 100%;
+  margin-top: 15px;
+}
+
+.title Link{
+  text-decoration: none;
+}
+
+.Map {
+  display: flex;
+  padding: 10px 10px 10px 10px;
   text-align: center;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-  pointer-events: none;
+.mapboxgl-marker {
+  color: black;
+}
+.mapboxgl-popup-content {
+  position: relative;
+  background: #fff;
+  border-radius: 3px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  padding: 10px 10px 15px;
+  pointer-events: auto;
 }
 
+svg{
+  opacity: 0.8;
+}
+
+.info-window {
+  width: 300px;
+  height: 150px;
+  border-radius: 2px;
+  border: solid grey;
+  padding: 1px;
+  /* box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); */
+}
+.info-window p {
+  font-size: 14px;
+  color: green;
+}
+
+
+/* Global buttons */
+.content-button {
+  align-self: center;
+  display: column;
+	padding: .2em .4em;
+  text-decoration: none;
+  margin: .2em .2em;
+	border: 3px solid black;
+  background-color: white;
+  color: red;
+	/*border-radius: 10px;*/
+	font-weight: 600;
+}
+
+/* a.content-button {
+	color: red;
+	text-decoration: none;
+} */
+
+a.content-button:focus,
+a.content-button:hover {
+	background: #B51C35;
+	color: #FFFCED;
+}
+
+@media screen and (min-width: 601px) {
+  .title ul {
+    width: auto;
+    margin-top: 0;
+  }
+}
+
+/*BASE STYLES  */
+body {
+	margin: 0;
+}
+
+footer{
+  margin-top: 5px;
+  display: inline-flex;
+  justify-content: space-between;
+  background-color: yellow;
+  padding: 5px;
+  color: black;
+}
+
+body,
+button,
+input,
+select,
+textarea {
+	font-family: 'Source Sans Pro', 'Helvetica', 'Arial', sans-serif;
+	font-size: 18px;
+	line-height: 1.5;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	clear: both;
+}
+
+p {
+	margin-bottom: 1.5em;
+}
+
+b,
+strong {
+	font-weight: bold;
+}
+
+dfn,
+cite,
+em,
+i {
+	font-style: italic;
+}
+
+blockquote {
+	margin: 0 1.5em;
+}
+
+address {
+	margin: 0 0 1.5em;
+}
+
+pre {
+    display: inline-block;
+    font-family: "Courier 10 Pitch", Courier, monospace;
+    color: #ddca7e;
+    background: #282c34;
+	padding: .5em .8em;
+    border-radius: .2em;
+}
+
+code,
+kbd,
+tt,
+var {
+	font: 15px Monaco, Consolas, "Andale Mono", "DejaVu Sans Mono", monospace;
+}
+
+abbr,
+acronym {
+	border-bottom: 1px dotted #666;
+	cursor: help;
+}
+
+mark,
+ins {
+	background: #fff9c0;
+	text-decoration: none;
+}
+
+sup,
+sub {
+	font-size: 75%;
+	height: 0;
+	line-height: 0;
+	position: relative;
+	vertical-align: baseline;
+}
+
+sup {
+	bottom: 1ex;
+}
+
+sub {
+	top: .5ex;
+}
+
+small {
+	font-size: 75%;
+}
+
+big {
+	font-size: 125%;
+}
+
+/* Global layouts */
+@media screen and (min-width: 700px) {
+    .two-column {
+        column-count: 2;
+        column-gap: 2.4em;
+    }
+}
+
+
+.site {
+/* 	margin: 1em; */
+}
+
+.masthead,
+.page-title,
+.main-content,
+.sidebar,
+.footer-content {
+/* 	margin-bottom: 1em; */
+    padding: 1em;
+    color: black;
+
+}
+
+
+
+.sidebar1 {
+    background-color: #f49018;
+}
+
+.sidebar2 {
+    background-color: #ac8658;
+}
+
+
+
+/*
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -17,17 +307,8 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
-}
+} */
 
 .App-link {
   color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
 }

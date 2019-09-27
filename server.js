@@ -4,6 +4,7 @@ const cors = require('cors');
 const logger = require('morgan');
 const artistController = require('./controllers/artistController');
 const sponsorController = require('./controllers/sponsorController');
+const userController = require('./controllers/userController');
 
 const PORT = process.env.PORT || 3001;
 //define the initial variable
@@ -15,6 +16,7 @@ app.use(bodyParser.json());
 app.use(logger('dev'));
 app.use('/artists', artistController);
 app.use('/sponsors', sponsorController);
+app.use('/auth', userController);
 
 //catch-all:
 app.use((e, req, res, next) =>{

@@ -1,13 +1,8 @@
 import React, {Component} from 'react';
-import {
-  Route, Switch, Redirect, Render
-} from 'react-router-dom';
 import ReactMapGL, {Marker, Popup } from 'react-map-gl';
-import ArtistProfile from './ArtistProfile'
-import ArtistList from './ArtistList'
-import SingleArtist from './SingleArtist'
 import InfoContent from './InfoContent'
 import Pin from './Pin'
+import '../App.css';
 
 
 import 'mapbox-gl/dist/mapbox-gl.css';
@@ -18,9 +13,8 @@ class Map extends Component {
     super(props)
 
   this.state = {
-    artists: [],
     viewport: {
-      width: "80vw",
+      width: "100%",
       height: "50vh",
       latitude: 40.753345,
       longitude: -73.9841719,
@@ -34,9 +28,13 @@ class Map extends Component {
   };
 }
 
+updateViewport=(viewport)=>{
+  this.setState({viewport})
+}
 
 _renderPopup() {
     const {popupInfo} = this.state;
+    //console.log('props', this.props)
     return (
       popupInfo && (
         <Popup
@@ -54,18 +52,16 @@ _renderPopup() {
   }
 
   render() {
-    console.log(this.props)
+    //console.log(this.props)
     //const {viewport} = this.state;
     return (
       <div >
-        <h2>Discover Artists in Your Area</h2>
-
           <ReactMapGL
             {...this.state.viewport}
             mapboxApiAccessToken = {process.env.REACT_APP_MAPBOX_TOKEN}
             mapStyle = 'mapbox://styles/parisny/ck0lefyty5kux1cte8t6fukb6'
-            onViewportChange = {(viewport) => this.setState({viewport})
-          }
+            onViewportChange = {(viewport) => this.updateViewport(viewport)}
+            onClick = {this.props.mapClick}
           >
 
             {this.props.artists.map(artist => (
@@ -78,7 +74,7 @@ _renderPopup() {
                  offsetTop={-10}
                 >
                 <div> {artist.username} </div>
-                <Pin size={20} onClick={() =>this.setState({popupInfo:artist})} />
+                <Pin size={12} onClick={() =>this.setState({popupInfo:artist})} />
               </Marker>
 
           ))}

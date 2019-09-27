@@ -1,97 +1,44 @@
-import React from 'react';
-
+import React  from 'react';
 
 const ArtistProfile = (props) => {
-console.log(props)
-  if (props.form.id) {
-    return (
-      <>
-        <h2>Update Your Data</h2>
-        <form onSubmit={props.handleSubmit}>
-          <label htmlFor="username">Name:</label>
-          <input
-            type="text"
-            name="username"
-            value={props.form.username}
-            onChange={props.handleChange}
-          />
-          <label htmlFor="lat">Latitude:</label>
-          <input
-            type="number"
-            name="lat"
-            value={props.form.lat}
-            onChange={e => props.handleChange(e)}
-            />
-            <label htmlFor="long">longitude:</label>
-            <input
-              type="number"
-              name="long"
-              value={props.form.long}
-              onChange={e => props.handleChange(e)}
-              />
-            <label htmlFor="website">Social Media:</label>
-            <input
+  const mapForm = () => {
+    return Object.keys(props.form).map((key) => {
+      switch(key) {
+        case 'id':
+        case 'createdAt':
+        case 'updatedAt':
+          return <></>
+      default:
+          return <>
+            <label htmlFor={key}>{key}:</label>
+            <input 
               type="text"
-              name="website"
-              value={props.form.website}
+              name={key}
+              value={props.form[key]}
               onChange={props.handleChange}
             />
-            <label htmlFor="intro">Write a brief intro!</label>
-            <input
-              type="text"
-              name="intro"
-              value={props.form.intro}
-              onChange={props.handleChange}
-            />
-          <button type="submit">Submit!</button>
-        </form>
-      </>
-    )
-  } else if (!props.form.id) {
+          </>
+      }
+    });
+  }
+  if (props.currentUser) {
     return (
       <>
-        <h2>Create Your Entry!</h2>
-        <form onSubmit={e => props.postArtist(e)}>
-          <label htmlFor="username">Name:</label>
-          <input
-            type="text"
-            name="username"
-            value={props.form.username}
-            onChange={e => props.handleChange(e)}
-            />
-          <label htmlFor="lat">Latitude:</label>
-          <input
-            type="number"
-            name="lat"
-            value={props.form.lat}
-            onChange={e => props.handleChange(e)}
-            />
-            <label htmlFor="long">longitude:</label>
-            <input
-              type="number"
-              name="long"
-              value={props.form.long}
-              onChange={e => props.handleChange(e)}
-              />
-          <label htmlFor="website">Social Media, Youtube Link, Instagram:</label>
-          <input
-            type="text"
-            name="website"
-            value={props.form.website}
-            onChange={e => props.handleChange(e)}
-          />
-          <label htmlFor="intro">Write a brief intro!</label>
-          <input
-            type="text"
-            name="intro"
-            value={props.form.intro}
-            onChange={props.handleChange}
-          />
-          <button type="submit">Submit!</button>
-        </form>
+        <h2 className = "main-content">Create or Update Your Data</h2>
+        <button className="content-button"  onClick={props.handleChangeLocation} >CHANGE LOCATION</button>
+
+          {mapForm()}
+
+        <button  className="content-button"  onClick={props.handleSubmit} >Submit</button>
+
       </>
     )
+  } else {
+    return <h1>No current user.</h1>
   }
 };
-
 export default ArtistProfile;
+
+// <button onClick= {() => {
+//     this.setState({ })
+//   }} >UPDATE ALL</button>

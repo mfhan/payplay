@@ -1,46 +1,45 @@
 //import React, { useState } from 'react';
 import React, {Component} from 'react';
-import {  Route, Link , Switch } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import { withRouter } from 'react-router';
-// jwt-decode lets us decode json web token and access the data in them
-import decode from 'jwt-decode';
+import Header from './components/Header'
 import Login from './components/Login'
 import Register from './components/Register'
-import ReactMapGL from 'react-map-gl';
-import ArtistList from './components/ArtistList'
-import ArtistProfile from './components/ArtistProfile'
 import Map from './components/Map'
-
-import { loginUser, registerUser, showArtists, createArtist, updateArtist, destroyArtist } from './services/api-helper';
+import ArtistProfile from './components/ArtistProfile'
+import ArtistList from './components/ArtistList'
+import About from './components/About'
+import Footer from './components/Footer'
+import { loginUser, registerUser, verifyUser, showArtists, showOneArtist, updateArtist} from './services/api-helper';
 import './App.css';
 
 class App extends Component {
-  constructor(props) {
+  constructor(props){
     super(props);
     this.state = {
       currentUser: null,
       artists: [],
-      // form: {
-      //   username: '',
-      //   lat: '',
-      //   long: '',
-      //   intro: ''
-      // },
+      form: {
+        username: '',
+        lat: '',
+        long: '',
+        intro: ''
+      },
       mapLat:null,
       mapLong:null,
       clicked:false,
-      // login: {
-      //   username: '',
-      //   password: '',
-      // },
-      // register: {
-      //   username: '',
-      //   email: '',
-      //   password: '',
-      // },
+      login: {
+        username: '',
+        password: '',
+      },
+      register: {
+        username: '',
+        email: '',
+        password: '',
+      },
       authFormData: {
         username: "",
-        password: ""
+        password: "",
       }
     }
   }
@@ -55,186 +54,186 @@ class App extends Component {
     }));
   }
 
-  handleLoginButton = () => {
-    this.props.history.push("/login");
-  }
 
   handleLogin = async () => {
+      console.log('props login click', this.props)
       const userData = await loginUser(this.state.authFormData);
+      localStorage.setItem("jwt", userData.token.token)
       this.setState({
-        currentUser: userData.user
-      })
-      localStorage.setItem("jwt", userData.token)
+        currentUser: userData.user,
+        form: userData.user
+        // form is added here
+      });
     }
 
-    // Function to register a user
-    // After register, we just call the login function with the same data
-    handleRegister = async (e) => {
-      e.preventDefault();
-      await registerUser(this.state.authFormData);
-      this.handleLogin();
-    }
-
-    handleLogout = () => {
-        localStorage.removeItem("jwt");
-        this.setState({
-          currentUser: null
-        })
-      }
-
-      // Handle change function for the auth forms
-      authHandleChange = (e) => {
-        const { name, value } = e.target;
-        this.setState(prevState => ({
-          authFormData: {
-            ...prevState.authFormData,
-            [name]: value
-          }
-        }));
-      }
-
-      // handle change function for our create food form
-      handleChange = (e) => {
-        const { name, value } = e.target;
-        this.setState({ formData: { [name]: value } });
-      }
-
-
-  mapClick =(map, e)=>{
-      console.log('this is app inside function', map)
+  handleVerify = async()=>{
+    //get the token from localStorage
+    const token = localStorage.getItem("jwt");
+    //IF there is a token, verify the user with a token
+    console.log(token)
+     if (token) {
+       const user = await verifyUser(token);
+      //we will assign formattedUser as currentUser
       this.setState({
-        mapLat:map.lngLat[0],
-        mapLong:map.lngLat[1],
-        clicked: true,
+        currentUser: user,
+        form: user
       })
     }
-
-
-  showUpdateForm = (id) => {
-    const artist = this.state.artists.find((comp) => comp.id === id);
-    const { username, lat, long, website } = artist;
-    this.setState({
-      form: {
-        id,
-        username,
-        lat,
-        long,
-        website
-      }
-    });
-
   }
+
+  handleLoginButton = () => {
+   console.log('props from login/register button', this.props)
+   this.props.history.push("/login");
+  }
+
+  // Function to register a user
+  // After register, we just call the login function with the same data
+  handleRegister = async (e) => {
+    console.log('props register click', this.props)
+    e.preventDefault();
+    await registerUser(this.state.authFormData);
+    this.handleLogin();
+  }
+
+  handleLogout = () => {
+      localStorage.removeItem("jwt");
+      this.setState({
+        currentUser: null
+      })
+      this.props.history.push('/')
+  }
+
+  // Handle change function for the auth forms
+  authHandleChange = (e) => {
+    const { name, value } = e.target;
+    this.setState(prevState => ({
+      authFormData: {
+        ...prevState.authFormData,
+        [name]: value
+      }
+    }));
+  }
+
+
+  handleChangeLocation =(e)=>{
+    e.preventDefault()
+    this.setState(prevState =>({
+      changingLocation: true
+    }))
+  }
+
+
+  mapClick =(map, e)=> {
+    if (!this.state.changingLocation) {
+      return;
+    }
+      console.log('this is mapClick', map)
+      this.setState(prevState => ({
+          form: {
+            ...prevState.form,
+            lat: map.lngLat[1],
+            long: map.lngLat[0],
+          },
+          changingLocation: false
+        }))
+  }
+
+  // clickRedirect=() => {
+  //   this.props.history.push('/')
+  // }
+        // spread the rest of prevState
+        // spread the rest of prevState.form
+        // change lat and long to map.lngLat etc.
+        //mapLat:map.lngLat[0],
+        //mapLong:map.lngLat[1],
+        //clicked: true,
+        //changingLocation: false
+
 
   getArtists = async () => {
     const artists = await showArtists()
     this.setState({ artists })
   }
 
-  postArtist = async (e) => {
-    e.preventDefault();
-    const data = this.state.form;
-    const newArtist = await createArtist()
-    // call the createComposer fn()
-    // and pass it the necessary data
-    this.setState((prevState) => ({
-      artists: [...prevState.artists, newArtist]
-    }));
+  getArtistById  = async (id) => {
+    const oneArtist = await showOneArtist(id)
+    this.setState({ oneArtist })
   }
 
-  updateArtist = async (e) => {
+  changeArtistForm = async (e) => {
     e.preventDefault();
     const { id, ...data } = this.state.form;
     const artist = await updateArtist(data, id)
-    // call the updateComposer fn()
-    // and pass it the necessary data
     this.setState((prevState) => ({
-      artists: [...prevState.artists.filter((comp) => comp.id !== id), artist],
-      form: {
-        username: '',
-        lat: '',
-        long: '',
-        website:''
-      }
+      artists: [...prevState.artists.filter((comp) => comp.id !== id), artist]
     }));
+    console.log(artist)
+    this.props.history.push('/')
   }
 
-  destroyArtist = async (id) => {
-    // call the destroyComposer fn()
-    // and pass it the necessary data
-    this.setState((prevState) => ({
-      artists: [...prevState.artists.filter((artist) => artist.id !== id)]
-    }));
-  }
-
-  componentDidMount() {
+  async componentDidMount() {
     console.log('Hey guys, componentDidMount!')
-    this.getArtists()
+    await this.getArtists()
+    await this.handleVerify()
   }
 
-// ? 'news-list' : 'news-list-pre'
   render() {
 
     return (
       <div className="App">
-        <header>
-        <Link to="/"><h1>PayPlay</h1></Link>
-      /* Here we use a terinary to check if there is a logged in user set in state.
-          If there is no logged in user, we show a login button instead of the site nav */
-      {this.state.currentUser
-        ?
-        <div>
-          /* This is a greeting to the user if there user info has been set in state.
-          We use the guard operator to check '&&' */
-          <h3>Hi {this.state.currentUser && this.state.currentUser.username}<button onClick={this.handleLogout}>logout</button></h3>
-          <hr />
+        <Header
+          currentUser = {this.state.currentUser}
+          handleLoginButton = {this.handleLoginButton}
+          handleLogout = {this.handleLogout}
+        />
+
+        <Route exact path="/login" render={(props) => (
+          <Login
+            handleLogin={this.handleLogin}
+            handleChange={this.authHandleChange}
+            formData={this.state.authFormData} /> )}
+        />
+
+        <Route exact path="/register" render={(props) => (
+          <Register
+            handleRegister={this.handleRegister}
+            handleChange={this.authHandleChange}
+            formData={this.state.authFormData} />)}
+        />
+        <div className="main-content">
+          <Map
+            artists={this.state.artists}
+            changingLocation={this.state.changingLocation}
+            mapClick={this.mapClick}
+          />
+          <Switch>
+          <Route exact path='/' render={(props) => (
+            <>
+              <ArtistList
+                 {...props}
+                 artists={this.state.artists}
+               />
+            </> )}
+            />
+
+           <Route path='/edit/:id' render={(props) => (
+               <ArtistProfile
+                 {...props}
+                 currentUser = {this.state.currentUser}
+                 form={this.state.form}
+                 handleChange={this.handleChange}
+                 handleChangeLocation={this.handleChangeLocation}
+                 handleSubmit={this.changeArtistForm}
+
+                  /> )}
+            />
+            <Route path='/about' component={About} />
+            </Switch>
+            <Footer />
         </div>
-        :
-        <button onClick={this.handleLoginButton}>Login/register</button>
-      }
-      </header>
-
-      <Route exact path="/login" render={(props) => (
-      <Login
-        handleLogin={this.handleLogin}
-        handleChange={this.authHandleChange}
-        formData={this.state.authFormData} />)} />
-      <Route exact path="/register" render={(props) => (
-      <Register
-        handleRegister={this.handleRegister}
-        handleChange={this.authHandleChange}
-        formData={this.state.authFormData} />)} />
-
-      <h2>Support Street Artists!</h2>
-      <Map
-        artists={this.state.artists}
-      />
-      <Switch>
-      <Route exact path='/' render={(props) => (
-        <>
-          <ArtistList
-             {...props}
-             artists={this.state.artists}
-             handleDelete={this.destroyArtist}
-             showUpdateForm={this.showUpdateForm}
-           />
-        </>
-        )} />
-
-       <Route path='/edit/:id' render={(props) => {
-         return (
-           <ArtistProfile
-             {...props}
-             form={this.state.form}
-             handleChange={this.handleChange}
-             handleSubmit={this.updateArtist}
-           />
-         )
-       }} />
-
-        </Switch>
       </div>
     );
   }
 }
 
-export default App;
+export default withRouter(App);
