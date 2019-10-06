@@ -5,7 +5,10 @@ const db = new Sequelize(
   {
   database: 'payplay_db',
   dialect: 'postgresql',
-  define: { underscored: true }
+  define: {
+        underscored: true,
+        returning: true
+      }
 });
 
 class Artist extends Sequelize.Model {}
