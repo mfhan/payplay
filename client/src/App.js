@@ -200,6 +200,8 @@ class App extends Component {
             handleChange={this.authHandleChange}
             formData={this.state.authFormData} />)}
         />
+
+
         <div className="main-content">
           <Map
             artists={this.state.artists}
@@ -229,8 +231,8 @@ class App extends Component {
             />
             <Route path='/about' component={About} />
             </Switch>
-            <Footer />
         </div>
+        <Footer />
       </div>
     );
   }

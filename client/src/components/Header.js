@@ -5,6 +5,19 @@ import '../App.css';
 
 const Header =(props)=>{
 
+    //
+    // <Link to = '/'><h1>Welcome to WorkHaven!</h1> </Link>
+    // { this.state.currentUser
+    //   ?
+    //   <>
+    //   <p>Let's get to work, {this.state.currentUser.email}</p>
+    //   <button onClick= {this.handleLogout}>Log Out</button>
+    //   </>
+    //   :
+    //   <Link to = '/login'><button>Log In/Register</button></Link>
+    // }
+
+
 
     return (
       <header className="title">
